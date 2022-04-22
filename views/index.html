@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>socket-chat</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center">
+      <div style="width: 600px; height: 600px; border: 1px solid gray; display: flex; align-items: center; justify-content: center; border-radius: 5px">
+        <input type="text" id="message" style="padding: 10px 15px; border-radius: 5px; font-size: 15px" placeholder="some..." />
+        <button onclick="sendMessage()" style="width: 80px; height: 40px; margin-left: 10px; border: none; border-radius: 5px; background-color: lightblue; font-size: 16px; color: #fff; cursor: pointer" id="send">SEND</button>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      let socket = io();
+      let send = document.getElementById("send");
+
+      socket.on("some-route", (msg) => {
+        console.log(msg);
+      });
+
+      function sendMessage() {
+        let value = document.getElementById("message");
+
+        if (value.value) {
+          socket.emit("some-route", {
+            message: value.value,
+          });
+          value.value = "";
+        } else {
+          alert("ma'lumot kiriting!");
+        }
+      }
+    </script>
+  </body>
+</html>
